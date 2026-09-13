@@ -12,9 +12,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let monitor = TransferMonitor()
     private var item: NSStatusItem!
     private let popover = NSPopover()
+    private var appearanceObservation: NSKeyValueObservation?
 
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.accessory)
+        updateApplicationIcon()
+        appearanceObservation = NSApp.observe(\.effectiveAppearance) { [weak self] _, _ in
+            Task { @MainActor in self?.updateApplicationIcon() }
+        }
         item = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
         item.button?.target = self
         item.button?.action = #selector(togglePopover)
@@ -24,6 +29,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         updateStatus()
         monitor.start()
         if !monitor.trusted { togglePopover() }
+    }
+
+    private func updateApplicationIcon() {
+        let dark = NSApp.effectiveAppearance.bestMatch(from: [.aqua, .darkAqua]) == .darkAqua
+        NSApp.applicationIconImage = NSImage(named: dark ? "TransferBarIconDark" : "TransferBarIconLight")
     }
 
     @objc private func togglePopover() {

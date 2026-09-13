@@ -6,8 +6,10 @@ struct ContentView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 18) {
             HStack {
-                Image(systemName: "arrow.left.arrow.right")
-                    .font(.title3.weight(.semibold)).foregroundStyle(.tint)
+                Image("TransferBarIcon")
+                    .resizable()
+                    .frame(width: 36, height: 36)
+                    .accessibilityHidden(true)
                 Text("TransferBar").font(.headline)
                 Spacer()
                 Circle().fill(monitor.trusted && !monitor.paused ? .green : .orange).frame(width: 7, height: 7)
