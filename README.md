@@ -1,5 +1,9 @@
 # TransferBar
 
+<p align="center">
+  <img src="Artwork/TransferBar-Light.png" alt="TransferBar app icon" width="180">
+</p>
+
 A native macOS 14+ menu bar utility that mirrors Finder's exposed operation progress. It does not copy, modify, or intercept files.
 
 ## Run
